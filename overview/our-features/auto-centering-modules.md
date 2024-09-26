@@ -1,30 +1,15 @@
 ---
-description: >-
-  Auto-centering modules could cause some unwanted jitter which is why it is
-  disabled by default!
+description: Orient the wheels when the robot stops moving
 ---
 
 # Auto-centering Modules
 
-## What is auto-centering modules?
+In certain scenarios it may be useful for your swerve modules to reset their positions when there is no input sent from the controllers. One example is when you're at home practicing and wish to make it easier to manually push the robot on the floor. This is only possible if the wheels are oriented the same.
 
-Auto-centering is how your robot will center the wheels when there is no input provided. When auto-centering is enabled the Swerve Module will "snap" to `0` every time there is no input form the controller or autonomous. This can be desired by some teams but it is in no way recommended. Auto-centering causes issues at startup that sometimes misaligns your robot for autonomous, this can also cause more drift than normal. Auto-centering modules works by calling [`SwerveModule.setAntiJitter(false)`](https://broncbotz3481.github.io/YAGSL/swervelib/SwerveModule.html#setAntiJitter\(boolean\)) so all side-effects of that action are present in swerve drives which use this!
+{% hint style="warning" %}
+The 'walking' effect caused by gear coupling may cause misalignment of your robot as the modules auto-center.
 
-## How do I enable auto-centering modules?
+Auto-centering is not recommended for use during competition.
+{% endhint %}
 
-You enable auto-centering by using `SwerveDrive.setAutoCenteringModules(true)`
-
-<pre class="language-java"><code class="lang-java">  /**
-   * Initialize {@link SwerveDrive} with the directory provided.
-   *
-   * @param directory Directory of swerve drive config files.
-   */
-  public SwerveSubsystem(File directory)
-  {
-    // Configure the Telemetry before creating the SwerveDrive to avoid unnecessary objects being created.
-    SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
-    swerveDrive = new SwerveParser(directory).createSwerveDrive(Constants.MAX_SPEED);
-<strong>    swerveDrive.setAutoCenteringModules(true);
-</strong>  }
-</code></pre>
-
+You enable auto-centering by calling [`SwerveDrive#setAutoCenteringModule`](https://broncbotz3481.github.io/YAGSL/swervelib/SwerveDrive.html#setAutoCenteringModules\(boolean\))

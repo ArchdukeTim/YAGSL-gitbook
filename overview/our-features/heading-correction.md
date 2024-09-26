@@ -1,39 +1,22 @@
-# Heading Correction
+---
+description: Automatically maintain robot orientation while driving across the field
+---
 
-## What is Heading Correction?
+# Heading Correction
 
 Heading correction is used to keep the robot heading the same as the previous heading while the robot is translating. It is aggressive and will prevent angular rotation based control schemes from working.
 
-Heading correction was added to YAGSL by Team 1466 and improved upon by 7525 Pioneers and BoiledBurntBagel of 6036.
+## Configuration
 
-## How do I enable it?
+#### Enable / Disable
 
-You can enable or disable heading correction using [`SwerveDrive.setHeadingCorrection`](https://broncbotz3481.github.io/YAGSL/swervelib/SwerveDrive.html#setHeadingCorrection\(boolean\)) from anywhere. The deadband is an arbitrary value that represents both meters persecond and radians epr second.&#x20;
+Heading correction can be enabled via  the [`SwerveDrive#setHeadingCorrection`](https://broncbotz3481.github.io/YAGSL/swervelib/SwerveDrive.html#setHeadingCorrection\(boolean,double\)) method.
 
-## What does heading correction do in code?
+#### Deadband
 
-Heading correction is used in [`SwerveDrive.drive`](https://broncbotz3481.github.io/YAGSL/swervelib/SwerveDrive.html#drive\(edu.wpi.first.math.kinematics.ChassisSpeeds,boolean,edu.wpi.first.math.geometry.Translation2d\)) to control the heading via the deadband [`SwerveDrive.setHeadingCorrection`](https://broncbotz3481.github.io/YAGSL/swervelib/SwerveDrive.html#setHeadingCorrection\(boolean,double\)). Heading correction uses the heading PID from `controllerproperties.json` and the current yaw to calculate an omega turning speed using [`SwerveController.headingCalculate`](https://broncbotz3481.github.io/YAGSL/swervelib/SwerveController.html#headingCalculate\(double,double\)).
+Heading correction only enables when the requested rotation speed is **below** a certain threshold, and the requested translation speed is **above** a certain threshold. By default the deadband is `.01 rad / s` and `.01 m / s` respectively. You can set a custom deadband as a second argument to the `setHeadingCorrection` method.
 
-```java
-    // Heading Angular Velocity Deadband, might make a configuration option later.
-    // Originally made by Team 1466 Webb Robotics.
-    // Modified by Team 7525 Pioneers and BoiledBurntBagel of 6036
-    if (headingCorrection)
-    {
-      if (Math.abs(velocity.omegaRadiansPerSecond) < HEADING_CORRECTION_DEADBAND
-          && (Math.abs(velocity.vxMetersPerSecond) > HEADING_CORRECTION_DEADBAND
-              || Math.abs(velocity.vyMetersPerSecond) > HEADING_CORRECTION_DEADBAND))
-      {
-        if (!correctionEnabled)
-        {
-          lastHeadingRadians = getYaw().getRadians();
-          correctionEnabled = true;
-        }
-        velocity.omegaRadiansPerSecond =
-            swerveController.headingCalculate(lastHeadingRadians, getYaw().getRadians());
-      } else
-      {
-        correctionEnabled = false;
-      }
-    }
-```
+{% hint style="info" %}
+A single deadband value is used for both rotation and translation
+{% endhint %}
+

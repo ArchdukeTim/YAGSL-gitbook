@@ -15,7 +15,7 @@
   * [Heading Correction](overview/our-features/heading-correction.md)
   * [Auto-centering Modules](overview/our-features/auto-centering-modules.md)
   * [Offset Offloading](overview/our-features/offset-offloading.md)
-  * [Cosine Compensation](overview/our-features/cosine-compensation.md)
+  * [Cosine Scaling](overview/our-features/cosine-compensation.md)
 * [Changelog](overview/changelog.md)
 * [Java API](https://broncbotz3481.github.io/YAGSL/)
 * [Example Code](https://github.com/BroncBotz3481/YAGSL-Example/tree/main)

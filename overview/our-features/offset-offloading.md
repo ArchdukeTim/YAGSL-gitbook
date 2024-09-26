@@ -1,27 +1,13 @@
 ---
-description: This is only supported on some motor controllers!
+description: Store encoder offsets on the motor controller directly
 ---
 
 # Offset Offloading
 
-## What is Offset Offloading?
+{% hint style="danger" %}
+This feature is only supported for Spark Max motor controllers
+{% endhint %}
 
-Offset Offloading is where the absolute encoder offset is stored on the absolute encoder (or Motor Controller if the absolute encoder is attached to the motor controller) instead of the roboRIO. This normally results in a faster loop cycle on the roboRIO however it can add some instability to the Swerve Drive if anything breaks during a match, like a CAN bus or a low brown-out.&#x20;
+Offset Offloading stores the azimuth encoder offset on the motor controller, rather than the roboRIO
 
-## How do I enable Offset Offloading?
-
-Offset offloading is enabled by [`SwerveDrive.pushOffsetsToEncoders`](https://broncbotz3481.github.io/YAGSL/swervelib/SwerveDrive.html#pushOffsetsToEncoders\(\)) and disabled by using [`SwerveDrive.restoreInternalOffset`](https://broncbotz3481.github.io/YAGSL/swervelib/SwerveDrive.html#restoreInternalOffset\(\)) both of these call  a function of the same name in `SwerveModule` for every instiantiated module.
-
-<pre class="language-java"><code class="lang-java">  /**
-   * Initialize {@link SwerveDrive} with the directory provided.
-   *
-   * @param directory Directory of swerve drive config files.
-   */
-  public SwerveSubsystem(File directory)
-  {
-    // Configure the Telemetry before creating the SwerveDrive to avoid unnecessary objects being created.
-    SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
-    swerveDrive = new SwerveParser(directory).createSwerveDrive(Constants.MAX_SPEED);
-<strong>    swerveDrive.pushOffsetsToEncoders();
-</strong>  }
-</code></pre>
+To enable offset offloading, use the [`SwerveDrive#pushOffsetsToEncoders`](https://broncbotz3481.github.io/YAGSL/swervelib/SwerveDrive.html#pushOffsetsToEncoders\(\)) method. You can restore roboRIO offset with the [`SwerveDrive#restoreInternalOffset`](https://broncbotz3481.github.io/YAGSL/swervelib/SwerveDrive.html#restoreInternalOffset\(\)) method.
